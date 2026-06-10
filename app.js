@@ -375,10 +375,10 @@ function App() {
           try {
             const sphereObj = splineApp2.findObjectByName('Sphere');
             if (sphereObj) {
-              // Make the bubble a bit smaller (approx 70% of original scale)
-              sphereObj.scale.x = 4.31;
-              sphereObj.scale.y = 4.31;
-              sphereObj.scale.z = 5.21;
+              // Make the bubble smaller to avoid blocking the centered text (approx 35% of original scale)
+              sphereObj.scale.x = 2.15;
+              sphereObj.scale.y = 2.15;
+              sphereObj.scale.z = 2.60;
             }
           } catch (e) {
             console.error(e);
