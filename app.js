@@ -362,28 +362,28 @@ function App() {
               textObj.position.y = 0;
               textObj.position.z = 0;
               
-              // Scale down the text so it fits within the max-w-4xl boundary
-              textObj.scale.x = 0.80;
-              textObj.scale.y = 0.80;
-              textObj.scale.z = 0.80;
+              // Scale the text to 0.92 to fit within the navigation bar boundary perfectly
+              textObj.scale.x = 0.92;
+              textObj.scale.y = 0.92;
+              textObj.scale.z = 0.92;
             }
             const parentObj = splineApp.findObjectByName('Parent');
             const followObj = splineApp.findObjectByName('Follow');
             const childObj = splineApp.findObjectByName('child');
             if (parentObj) {
-              parentObj.scale.x = 0.80;
-              parentObj.scale.y = 0.80;
-              parentObj.scale.z = 0.80;
+              parentObj.scale.x = 0.92;
+              parentObj.scale.y = 0.92;
+              parentObj.scale.z = 0.92;
             }
             if (followObj) {
-              followObj.scale.x = 0.50;
-              followObj.scale.y = 0.50;
-              followObj.scale.z = 0.50;
+              followObj.scale.x = 0.60;
+              followObj.scale.y = 0.60;
+              followObj.scale.z = 0.60;
             }
             if (childObj) {
-              childObj.scale.x = 0.73;
-              childObj.scale.y = 0.73;
-              childObj.scale.z = 0.73;
+              childObj.scale.x = 0.84;
+              childObj.scale.y = 0.84;
+              childObj.scale.z = 0.84;
             }
           } catch (e) {
             console.error(e);
@@ -398,10 +398,10 @@ function App() {
           try {
             const sphereObj = splineApp2.findObjectByName('Sphere');
             if (sphereObj) {
-              // Make the bubble smaller to match the new text scale
-              sphereObj.scale.x = 1.60;
-              sphereObj.scale.y = 1.60;
-              sphereObj.scale.z = 1.90;
+              // Scale background sphere to match the new layout scale
+              sphereObj.scale.x = 1.80;
+              sphereObj.scale.y = 1.80;
+              sphereObj.scale.z = 2.15;
             }
           } catch (e) {
             console.error(e);
