@@ -357,33 +357,29 @@ function App() {
           try {
             const textObj = splineApp.findObjectByName('Text');
             if (textObj) {
-              // Center the text to the middle
-              textObj.position.x = 0;
-              textObj.position.y = 0;
-              textObj.position.z = 0;
-              
-              // Scale the text to 0.92 to fit within the navigation bar boundary perfectly
-              textObj.scale.x = 0.92;
-              textObj.scale.y = 0.92;
-              textObj.scale.z = 0.92;
+              // Hide the 3D Text object inside WebGL scene so we can overlay a custom HTML responsive H1
+              textObj.visible = false;
+              textObj.scale.x = 0;
+              textObj.scale.y = 0;
+              textObj.scale.z = 0;
             }
             const parentObj = splineApp.findObjectByName('Parent');
             const followObj = splineApp.findObjectByName('Follow');
             const childObj = splineApp.findObjectByName('child');
             if (parentObj) {
-              parentObj.scale.x = 0.92;
-              parentObj.scale.y = 0.92;
-              parentObj.scale.z = 0.92;
+              parentObj.scale.x = 2.40;
+              parentObj.scale.y = 2.40;
+              parentObj.scale.z = 2.40;
             }
             if (followObj) {
-              followObj.scale.x = 0.60;
-              followObj.scale.y = 0.60;
-              followObj.scale.z = 0.60;
+              followObj.scale.x = 1.60;
+              followObj.scale.y = 1.60;
+              followObj.scale.z = 1.60;
             }
             if (childObj) {
-              childObj.scale.x = 0.84;
-              childObj.scale.y = 0.84;
-              childObj.scale.z = 0.84;
+              childObj.scale.x = 2.20;
+              childObj.scale.y = 2.20;
+              childObj.scale.z = 2.20;
             }
           } catch (e) {
             console.error(e);
@@ -398,10 +394,27 @@ function App() {
           try {
             const sphereObj = splineApp2.findObjectByName('Sphere');
             if (sphereObj) {
-              // Scale background sphere to match the new layout scale
-              sphereObj.scale.x = 1.80;
-              sphereObj.scale.y = 1.80;
-              sphereObj.scale.z = 2.15;
+              // Enlarge and reposition main background sphere to top-left area
+              sphereObj.scale.x = 5.00;
+              sphereObj.scale.y = 5.00;
+              sphereObj.scale.z = 5.50;
+              sphereObj.position.x = -250;
+              sphereObj.position.y = 120;
+              
+              // Clone the sphere to create a second bubble floating in the bottom-right quadrant to scatter them
+              const scene = splineApp2._scene || splineApp2.scene;
+              if (scene) {
+                const sphereClone = sphereObj.clone();
+                sphereClone.name = "SphereClone";
+                sphereClone.scale.x = 3.60;
+                sphereClone.scale.y = 3.60;
+                sphereClone.scale.z = 4.20;
+                sphereClone.position.x = 320;
+                sphereClone.position.y = -180;
+                sphereClone.position.z = -50;
+                scene.add(sphereClone);
+                console.log("Cloned second background sphere successfully.");
+              }
             }
           } catch (e) {
             console.error(e);
@@ -667,8 +680,15 @@ function App() {
           <div className="absolute inset-0 bg-gradient-to-b from-dark/40 via-dark/10 to-dark pointer-events-none"></div>
         </div>
 
-        {/* Empty top spacer to balance layout */}
-        <div className="h-12 w-full"></div>
+        {/* Massive H1 typography centered over WebGL background */}
+        <div className="relative z-20 flex flex-col items-center justify-center flex-grow w-full max-w-[90vw] mx-auto select-none pointer-events-none mt-16">
+          <h1 className="font-heading text-[11vw] md:text-[9.8vw] leading-[0.8] uppercase tracking-tighter text-cream text-center font-extrabold drop-shadow-2xl">
+            THE ART<br />
+            OF<br />
+            HACKING<br />
+            ATTENTION
+          </h1>
+        </div>
 
         {/* Action Button positioned at the bottom, clear of the 3D central typography */}
         <div className="relative z-20 mb-8 pointer-events-auto select-none">
