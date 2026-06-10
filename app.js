@@ -354,6 +354,17 @@ function App() {
         splineApp.load('https://prod.spline.design/wLNPW-u0PmeBQRYy/scene.splinecode').then(() => {
           window.splineApp = splineApp;
           console.log("Foreground Spline 3D scene loaded successfully.");
+          try {
+            const textObj = splineApp.findObjectByName('Text');
+            if (textObj) {
+              // Center the text to the middle
+              textObj.position.x = 0;
+              textObj.position.y = 0;
+              textObj.position.z = 0;
+            }
+          } catch (e) {
+            console.error(e);
+          }
         });
       }
       if (splineCanvasRef2.current) {
@@ -361,6 +372,17 @@ function App() {
         splineApp2.load('https://prod.spline.design/X7k2VeUpaeQgO-v6/scene.splinecode').then(() => {
           window.splineApp2 = splineApp2;
           console.log("Background Spline 3D scene loaded successfully.");
+          try {
+            const sphereObj = splineApp2.findObjectByName('Sphere');
+            if (sphereObj) {
+              // Make the bubble a bit smaller (approx 70% of original scale)
+              sphereObj.scale.x = 4.31;
+              sphereObj.scale.y = 4.31;
+              sphereObj.scale.z = 5.21;
+            }
+          } catch (e) {
+            console.error(e);
+          }
         });
       }
     }).catch(err => {
