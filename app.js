@@ -461,7 +461,7 @@ function App() {
   // Handle email click copy-to-clipboard
   const handleEmailCopy = (e) => {
     e.preventDefault();
-    const email = "hello@adityafiles.co";
+    const email = "adityamedia317@gmail.com";
     navigator.clipboard.writeText(email).then(() => {
       setCopied(true);
       setCursorText("Copied!");
@@ -1386,7 +1386,7 @@ function App() {
               
               <h3 className="font-heading text-2xl uppercase tracking-tighter mb-2">Get In Touch</h3>
               <p className="font-mono text-sm tracking-wider text-peach group-hover:text-cream transition-colors duration-300">
-                hello@adityafiles.co
+                adityamedia317@gmail.com
               </p>
             </a>
           </Magnetic>
