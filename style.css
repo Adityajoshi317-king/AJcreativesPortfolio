@@ -1,0 +1,105 @@
+/* Custom styling utilities for premium tactile textures and viewport configurations */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: #0D0D0D;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0D0D0D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2E54FE;
+}
+
+/* Viewport Shading Vignette */
+.vignette-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle, rgba(0,0,0,0) 65%, rgba(0,0,0,0.3) 100%);
+  pointer-events: none;
+  z-index: 48;
+}
+
+/* Webflow layout helper overrides if needed */
+.hide {
+  display: none !important;
+}
+
+/* Custom CSS filters for kinetic cards */
+.dither-effect {
+  filter: contrast(1.1) brightness(0.95) saturate(1.05);
+}
+
+/* Hide scrollbars for chrome/safari and firefox */
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+}
+.scrollbar-none {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* Premium Animated Silk Background Ken Burns Effect */
+.hero-silk-bg {
+  animation: bg-pan-zoom 24s ease-in-out infinite alternate;
+}
+
+@keyframes bg-pan-zoom {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.06) translate(1%, -1%);
+  }
+  100% {
+    transform: scale(1.12) translate(-1%, 1%);
+  }
+}
+
+/* Infinite Marquee Scrolling Comments Track */
+.engagement-marquee-container {
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 30s linear infinite;
+  will-change: transform;
+}
+
+/* Pause on hover */
+.marquee-track:hover {
+  animation-play-state: paused;
+  cursor: grab;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
