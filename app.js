@@ -283,7 +283,28 @@ function App() {
   const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
   const [copied, setCopied] = useState(false);
   const [activeVideoId, setActiveVideoId] = useState(null);
-  
+
+  // Preloader state indicators
+  const [isLoading, setIsLoading] = useState(true);
+  const [spline1Loaded, setSpline1Loaded] = useState(false);
+  const [spline2Loaded, setSpline2Loaded] = useState(false);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [pageLoaded, setPageLoaded] = useState(false);
+
+  // Entrance animation variants for the Hero Headline text
+  const h1Variants = {
+    hidden: { opacity: 0, y: 35 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.8, // starts immediately after the 0.8s preloader fade-out completes
+        duration: 1.2,
+        ease: [0.16, 1, 0.3, 1], // premium easeOutExpo ease curve
+      }
+    }
+  };
+
   const aboutRef = useRef(null);
   const splineCanvasRef = useRef(null);
   const splineCanvasRef2 = useRef(null);
@@ -343,6 +364,60 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
+  // Track Fonts and Page Load status
+  useEffect(() => {
+    // Check if fonts are ready
+    if (document.fonts) {
+      document.fonts.ready.then(() => {
+        setFontsLoaded(true);
+      }).catch(err => {
+        console.error("Font loading error:", err);
+        setFontsLoaded(true); // fallback
+      });
+    } else {
+      setFontsLoaded(true); // fallback if not supported
+    }
+
+    // Check page load
+    if (document.readyState === 'complete') {
+      setPageLoaded(true);
+    } else {
+      const handleLoad = () => setPageLoaded(true);
+      window.addEventListener('load', handleLoad);
+      return () => window.removeEventListener('load', handleLoad);
+    }
+  }, []);
+
+  // Monitor loading flags and trigger preloader completion
+  useEffect(() => {
+    if (spline1Loaded && spline2Loaded && fontsLoaded && pageLoaded) {
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 500); // 500ms delay for visual premium feel
+      return () => clearTimeout(timer);
+    }
+  }, [spline1Loaded, spline2Loaded, fontsLoaded, pageLoaded]);
+
+  // Safety fallback timeout: hide preloader after 6 seconds max
+  useEffect(() => {
+    const fallback = setTimeout(() => {
+      setIsLoading(false);
+    }, 6000);
+    return () => clearTimeout(fallback);
+  }, []);
+
+  // Prevent document scroll while loading
+  useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isLoading]);
+
   // Load Spline 3D Scenes for the Hero section background
   useEffect(() => {
     let splineApp = null;
@@ -352,6 +427,7 @@ function App() {
       if (splineCanvasRef.current) {
         splineApp = new Application(splineCanvasRef.current);
         splineApp.load('https://prod.spline.design/wLNPW-u0PmeBQRYy/scene.splinecode').then(() => {
+          setSpline1Loaded(true);
           window.splineApp = splineApp;
           console.log("Foreground Spline 3D scene loaded successfully.");
           try {
@@ -384,11 +460,18 @@ function App() {
           } catch (e) {
             console.error(e);
           }
+        }).catch(err => {
+          console.error("Spline 1 failed to load:", err);
+          setSpline1Loaded(true);
         });
+      } else {
+        setSpline1Loaded(true);
       }
+
       if (splineCanvasRef2.current) {
         splineApp2 = new Application(splineCanvasRef2.current);
         splineApp2.load('https://prod.spline.design/X7k2VeUpaeQgO-v6/scene.splinecode').then(() => {
+          setSpline2Loaded(true);
           window.splineApp2 = splineApp2;
           console.log("Background Spline 3D scene loaded successfully.");
           try {
@@ -419,10 +502,17 @@ function App() {
           } catch (e) {
             console.error(e);
           }
+        }).catch(err => {
+          console.error("Spline 2 failed to load:", err);
+          setSpline2Loaded(true);
         });
+      } else {
+        setSpline2Loaded(true);
       }
     }).catch(err => {
       console.error("Failed to load Spline 3D Scenes:", err);
+      setSpline1Loaded(true);
+      setSpline2Loaded(true);
     });
   }, []);
 
@@ -500,6 +590,8 @@ function App() {
 
   // Trigger Lenis smooth scroll
   useEffect(() => {
+    if (isLoading) return; // Wait until loading finishes to enable Lenis
+    
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -514,7 +606,7 @@ function App() {
     requestAnimationFrame(raf);
 
     return () => lenis.destroy();
-  }, []);
+  }, [isLoading]);
 
   // Handle email click copy-to-clipboard
   const handleEmailCopy = (e) => {
@@ -538,6 +630,37 @@ function App() {
   return (
     <div className={`relative min-h-screen select-none ${themeContainerClass}`}>
       
+      {/* Preloader Overlay */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            key="preloader"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-0 z-[9999] bg-[#000000] flex flex-col items-center justify-center cursor-wait select-none"
+          >
+            <div className="flex items-center gap-5">
+              {/* Glowing loading spinner matching the 'VIEW PORTFOLIO' button color (#2E54FE) */}
+              <div className="relative flex items-center justify-center">
+                {/* Glow ring */}
+                <div className="absolute w-10 h-10 rounded-full border border-[#2E54FE] opacity-25 filter blur-[4px]"></div>
+                {/* Rotating arc */}
+                <svg className="animate-spin h-9 w-9 text-[#2E54FE]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: "drop-shadow(0 0 8px #2E54FE)" }}>
+                  <circle className="opacity-10" cx="12" cy="12" r="10" stroke="#2E54FE" strokeWidth="3" />
+                  <path className="opacity-100" d="M12 2C6.47715 2 2 6.47715 2 12C2 13.5997 2.37562 15.1116 3.0434 16.4527" stroke="#2E54FE" strokeWidth="3" strokeLinecap="round" />
+                </svg>
+              </div>
+
+              {/* 'AJCREATIVES' Logo */}
+              <div className="flex items-center gap-1 font-heading text-2xl md:text-3xl uppercase tracking-tighter text-cream">
+                AJcreatives<span className="text-[#2E54FE] font-mono font-bold">.</span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Viewport Framing (12px border) */}
       <div className="fixed inset-0 border-[12px] border-dark pointer-events-none z-50 transition-colors duration-1000"></div>
 
@@ -545,24 +668,26 @@ function App() {
       <div className="vignette-overlay"></div>
 
       {/* Dynamic unified custom cursor */}
-      <motion.div
-        className="fixed z-40 top-0 left-0 pointer-events-none flex items-center justify-center text-center mix-blend-difference"
-        animate={{ 
-          x: mousePos.x - (cursorHovered ? 48 : 12), 
-          y: mousePos.y - (cursorHovered ? 48 : 12),
-          width: cursorHovered ? 96 : 24,
-          height: cursorHovered ? 96 : 24,
-        }}
-        transition={{ type: "spring", stiffness: 350, damping: 26, mass: 0.15 }}
-      >
-        <div className={`w-full h-full rounded-full border border-white/60 bg-white/5 backdrop-blur-[1px] flex items-center justify-center transition-all duration-300`}>
-          {cursorHovered && cursorText && (
-            <span className="font-mono text-[9px] uppercase tracking-wider text-white select-none whitespace-normal px-2">
-              {cursorText}
-            </span>
-          )}
-        </div>
-      </motion.div>
+      {!isLoading && (
+        <motion.div
+          className="fixed z-40 top-0 left-0 pointer-events-none flex items-center justify-center text-center mix-blend-difference"
+          animate={{ 
+            x: mousePos.x - (cursorHovered ? 48 : 12), 
+            y: mousePos.y - (cursorHovered ? 48 : 12),
+            width: cursorHovered ? 96 : 24,
+            height: cursorHovered ? 96 : 24,
+          }}
+          transition={{ type: "spring", stiffness: 350, damping: 26, mass: 0.15 }}
+        >
+          <div className={`w-full h-full rounded-full border border-white/60 bg-white/5 backdrop-blur-[1px] flex items-center justify-center transition-all duration-300`}>
+            {cursorHovered && cursorText && (
+              <span className="font-mono text-[9px] uppercase tracking-wider text-white select-none whitespace-normal px-2">
+                {cursorText}
+              </span>
+            )}
+          </div>
+        </motion.div>
+      )}
 
       {/* ==========================================================================
          A. HEADER / NAVIGATION BAR
@@ -682,12 +807,17 @@ function App() {
 
         {/* Massive H1 typography centered over WebGL background */}
         <div className="relative z-20 flex flex-col items-center justify-center flex-grow w-full max-w-[90vw] mx-auto select-none pointer-events-none mt-16">
-          <h1 className="font-heading text-[11vw] md:text-[9.8vw] leading-[0.8] uppercase tracking-tighter text-cream text-center font-extrabold drop-shadow-2xl">
+          <motion.h1
+            initial="hidden"
+            animate={!isLoading ? "visible" : "hidden"}
+            variants={h1Variants}
+            className="font-heading text-[11vw] md:text-[9.8vw] leading-[0.8] uppercase tracking-tighter text-cream text-center font-extrabold drop-shadow-2xl"
+          >
             THE ART<br />
             OF<br />
             HACKING<br />
             ATTENTION
-          </h1>
+          </motion.h1>
         </div>
 
         {/* Action Button positioned at the bottom, clear of the 3D central typography */}
