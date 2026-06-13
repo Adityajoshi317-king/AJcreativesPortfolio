@@ -272,6 +272,158 @@ function YoutubeCard({ title, videoId, setCursorText, setCursorHovered, onClick 
   );
 }
 
+// Interactive Folder CTA component (redirects to YTJobs talent vitrine)
+function FolderCTA({ setCursorText, setCursorHovered }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <section className="relative w-full py-28 bg-dark/90 text-cream flex flex-col items-center justify-center border-t border-white/10 overflow-hidden">
+      {/* Background glow behind folder */}
+      <div className="absolute w-[300px] h-[300px] rounded-full bg-electric/15 blur-[120px] pointer-events-none" />
+      
+      <div className="max-w-xl text-center z-10 flex flex-col items-center">
+        <span className="font-mono text-xs uppercase tracking-widest text-peach mb-6 block animate-pulse">
+          Curious?... Check out my
+        </span>
+        
+        {/* The Interactive Folder Wrapper */}
+        <a
+          href="https://ytjobs.co/talent/vitrine/241611"
+          target="_blank"
+          rel="noopener noreferrer"
+          onMouseEnter={() => {
+            setIsHovered(true);
+            setCursorText("Open YTJobs ↗");
+            setCursorHovered(true);
+          }}
+          onMouseLeave={() => {
+            setIsHovered(false);
+            setCursorHovered(false);
+          }}
+          className="relative block w-[280px] sm:w-[360px] md:w-[420px] h-[220px] sm:h-[280px] md:h-[320px] cursor-none transition-transform duration-500 ease-out active:scale-95"
+          style={{
+            perspective: "1000px",
+          }}
+        >
+          {/* FOLDER BACK */}
+          <div className="absolute inset-0 bg-[#1e3bb3] rounded-3xl border border-white/5 shadow-inner">
+            {/* Folder Back Tab */}
+            <div 
+              className="absolute -top-4 sm:-top-5 left-0 w-[40%] h-[20px] sm:h-[25px] bg-[#1e3bb3] border-t border-l border-r border-white/5" 
+              style={{
+                clipPath: "polygon(0 0, 80% 0, 100% 100%, 0 100%)",
+                borderRadius: "12px 12px 0 0"
+              }}
+            />
+          </div>
+
+          {/* DOCUMENTS (PEEKING INSIDE) */}
+          
+          {/* Doc 1 (Back-most: Peach Theme) */}
+          <motion.div
+            animate={{
+              y: isHovered ? -65 : 0,
+              x: isHovered ? -25 : 0,
+              rotate: isHovered ? -12 : 0,
+            }}
+            transition={{ type: "spring", stiffness: 180, damping: 14 }}
+            className="absolute top-2 left-6 right-6 h-[80%] bg-peach rounded-2xl border border-white/10 shadow-md p-4 sm:p-5 flex flex-col justify-between select-none"
+          >
+            <div className="flex justify-between items-start">
+              <span className="font-mono text-[9px] sm:text-[10px] text-dark/60 tracking-wider">YTJOBS WORK</span>
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-dark/20" />
+            </div>
+            <div className="text-dark font-heading text-lg sm:text-2xl leading-none text-left tracking-tight">
+              Video Editing
+            </div>
+          </motion.div>
+
+          {/* Doc 2 (Middle: Cream Theme) */}
+          <motion.div
+            animate={{
+              y: isHovered ? -50 : 0,
+              x: isHovered ? 25 : 0,
+              rotate: isHovered ? 12 : 0,
+            }}
+            transition={{ type: "spring", stiffness: 180, damping: 14 }}
+            className="absolute top-4 left-6 right-6 h-[80%] bg-cream rounded-2xl border border-black/5 shadow-md p-4 sm:p-5 flex flex-col justify-between select-none"
+          >
+            <div className="flex justify-between items-start">
+              <span className="font-mono text-[9px] sm:text-[10px] text-dark/40 tracking-wider">RETENTION</span>
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-dark/10" />
+            </div>
+            <div className="text-dark font-heading text-lg sm:text-2xl leading-none text-left tracking-tight">
+              16M+ Views
+            </div>
+          </motion.div>
+
+          {/* Doc 3 (Front-most: Dark Theme Showcase Card) */}
+          <motion.div
+            animate={{
+              y: isHovered ? -35 : 0,
+              rotate: isHovered ? -3 : 0,
+            }}
+            transition={{ type: "spring", stiffness: 180, damping: 14 }}
+            className="absolute top-6 left-6 right-6 h-[80%] bg-dark text-cream rounded-2xl border border-white/10 shadow-xl p-4 sm:p-5 flex flex-col justify-between select-none"
+          >
+            <div className="flex justify-between items-start">
+              <span className="font-mono text-[9px] sm:text-[10px] text-peach tracking-wider">SHOWCASE</span>
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-peach/30" />
+            </div>
+            <div className="text-left">
+              <div className="font-heading text-lg sm:text-2xl text-cream leading-tight tracking-tight">AJcreatives</div>
+              <div className="font-mono text-[9px] text-white/50 mt-1">Click to open profile</div>
+            </div>
+          </motion.div>
+
+          {/* FOLDER FRONT COVER */}
+          <motion.div
+            animate={{
+              rotateX: isHovered ? -18 : 0,
+              y: isHovered ? 6 : 0,
+              z: isHovered ? 25 : 0,
+            }}
+            style={{
+              transformOrigin: "bottom",
+              transformStyle: "preserve-3d",
+            }}
+            transition={{ type: "spring", stiffness: 150, damping: 15 }}
+            className="absolute bottom-0 left-0 right-0 h-[80%] bg-electric rounded-3xl shadow-2xl flex flex-col justify-between p-5 sm:p-6 border-t border-white/20 select-none overflow-hidden"
+          >
+            <div className="flex justify-between items-center">
+              <div className="px-3 py-1 rounded-full bg-cream/15 border border-white/10 text-cream text-[9px] sm:text-[10px] font-mono tracking-widest uppercase">
+                Portfolio
+              </div>
+              <div className="w-8 sm:w-10 h-1 sm:h-1.5 rounded-full bg-white/20" />
+            </div>
+
+            <div className="flex justify-center items-center h-full">
+              <span 
+                className="font-heading text-6xl sm:text-8xl uppercase tracking-tighter select-none font-extrabold"
+                style={{
+                  color: "#1e3bb3",
+                  textShadow: "0px 1px 1px rgba(255,255,255,0.15), 0px -1px 1px rgba(0,0,0,0.6)"
+                }}
+              >
+                aj
+              </span>
+            </div>
+
+            <div className="flex justify-between items-center text-[8px] sm:text-[9px] font-mono text-white/40 tracking-widest uppercase">
+              <span>YTJobs.co</span>
+              <span>Available for Hire</span>
+            </div>
+          </motion.div>
+        </a>
+
+        <span className="font-mono text-xs uppercase tracking-widest text-white/30 mt-10 sm:mt-12 block animate-bounce">
+          Or keep scrolling ↓
+        </span>
+      </div>
+    </section>
+  );
+}
+
 // ==========================================================================
 // 2. MAIN APPLICATION COMPONENT
 // ==========================================================================
@@ -1412,6 +1564,9 @@ function App() {
           </div>
         </div>
       </section>
+
+      {/* Interactive Folder CTA */}
+      <FolderCTA setCursorText={setCursorText} setCursorHovered={setCursorHovered} />
 
       {/* ==========================================================================
          F. VERIFIED TESTIMONIALS
