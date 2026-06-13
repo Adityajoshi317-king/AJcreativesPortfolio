@@ -1600,8 +1600,7 @@ function App() {
             
             <div className="flex flex-col">
               <span className="text-white/30 mb-3 tracking-wider">Social:</span>
-              <a href="https://linkedin.com" target="_blank" className="hover:text-peach transition-colors">Linkedin</a>
-              <a href="https://x.com" target="_blank" className="hover:text-peach mt-1 transition-colors">Twitter / X</a>
+              <a href="https://x.com/Adit_edits" target="_blank" className="hover:text-peach transition-colors">Twitter / X</a>
             </div>
           </div>
 
