@@ -277,7 +277,7 @@ function FolderCTA({ setCursorText, setCursorHovered }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <section className="relative w-full py-28 bg-dark/90 text-cream flex flex-col items-center justify-center overflow-hidden">
+    <section className="relative w-full py-28 flex flex-col items-center justify-center overflow-hidden">
       {/* Background glow behind folder */}
       <div className="absolute w-[300px] h-[300px] rounded-full bg-electric/15 blur-[120px] pointer-events-none" />
       
@@ -813,8 +813,6 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* Viewport Framing removed for seamless flow */}
-
       {/* Cinematic Vignette Overlay */}
       <div className="vignette-overlay"></div>
 
@@ -1020,21 +1018,21 @@ function App() {
 
           {/* Scrolling metrics countups inside the light section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24">
-            <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-sm shadow-xl flex flex-col items-center">
+            <div className="p-8 rounded-2xl bg-white/5 border border-black/5 backdrop-blur-sm shadow-xl flex flex-col items-center">
               <span className="font-heading text-6xl md:text-7xl text-electric mb-3">
                 <AnimatedCounter value="16M+" />
               </span>
               <span className="font-mono text-xs uppercase tracking-widest opacity-60">Total Views Generated</span>
             </div>
 
-            <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-sm shadow-xl flex flex-col items-center">
+            <div className="p-8 rounded-2xl bg-white/5 border border-black/5 backdrop-blur-sm shadow-xl flex flex-col items-center">
               <span className="font-heading text-6xl md:text-7xl text-electric mb-3">
                 <AnimatedCounter value="400K+" />
               </span>
               <span className="font-mono text-xs uppercase tracking-widest opacity-60">Active Likes Gained</span>
             </div>
 
-            <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-sm shadow-xl flex flex-col items-center">
+            <div className="p-8 rounded-2xl bg-white/5 border border-black/5 backdrop-blur-sm shadow-xl flex flex-col items-center">
               <span className="font-heading text-6xl md:text-7xl text-electric mb-3">
                 <AnimatedCounter value="26" />
               </span>
