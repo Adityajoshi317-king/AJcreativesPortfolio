@@ -154,7 +154,7 @@ function ProjectCard({ category, title, description, videoSrc, accentColor, setC
       onMouseLeave={() => {
         setCursorHovered(false);
       }}
-      className="relative w-full min-h-[70vh] flex flex-col md:flex-row items-center justify-between gap-12 py-16 border-b border-white/10 last:border-b-0 cursor-none"
+      className="relative w-full min-h-[70vh] flex flex-col md:flex-row items-center justify-between gap-12 py-16 cursor-none"
     >
       {/* Narrative Section */}
       <div className="w-full md:w-5/12 flex flex-col items-start text-left z-10">
@@ -277,7 +277,7 @@ function FolderCTA({ setCursorText, setCursorHovered }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <section className="relative w-full py-28 bg-dark/90 text-cream flex flex-col items-center justify-center border-t border-white/10 overflow-hidden">
+    <section className="relative w-full py-28 bg-dark/90 text-cream flex flex-col items-center justify-center overflow-hidden">
       {/* Background glow behind folder */}
       <div className="absolute w-[300px] h-[300px] rounded-full bg-electric/15 blur-[120px] pointer-events-none" />
       
@@ -813,8 +813,7 @@ function App() {
         )}
       </AnimatePresence>
 
-      {/* Viewport Framing (12px border) */}
-      <div className="fixed inset-0 border-[12px] border-dark pointer-events-none z-50 transition-colors duration-1000"></div>
+      {/* Viewport Framing removed for seamless flow */}
 
       {/* Cinematic Vignette Overlay */}
       <div className="vignette-overlay"></div>
@@ -1021,21 +1020,21 @@ function App() {
 
           {/* Scrolling metrics countups inside the light section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24">
-            <div className="p-8 rounded-2xl bg-white/5 border border-black/5 backdrop-blur-sm shadow-xl flex flex-col items-center">
+            <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-sm shadow-xl flex flex-col items-center">
               <span className="font-heading text-6xl md:text-7xl text-electric mb-3">
                 <AnimatedCounter value="16M+" />
               </span>
               <span className="font-mono text-xs uppercase tracking-widest opacity-60">Total Views Generated</span>
             </div>
 
-            <div className="p-8 rounded-2xl bg-white/5 border border-black/5 backdrop-blur-sm shadow-xl flex flex-col items-center">
+            <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-sm shadow-xl flex flex-col items-center">
               <span className="font-heading text-6xl md:text-7xl text-electric mb-3">
                 <AnimatedCounter value="400K+" />
               </span>
               <span className="font-mono text-xs uppercase tracking-widest opacity-60">Active Likes Gained</span>
             </div>
 
-            <div className="p-8 rounded-2xl bg-white/5 border border-black/5 backdrop-blur-sm shadow-xl flex flex-col items-center">
+            <div className="p-8 rounded-2xl bg-white/5 backdrop-blur-sm shadow-xl flex flex-col items-center">
               <span className="font-heading text-6xl md:text-7xl text-electric mb-3">
                 <AnimatedCounter value="26" />
               </span>
@@ -1571,7 +1570,7 @@ function App() {
       {/* ==========================================================================
          F. VERIFIED TESTIMONIALS
          ========================================================================== */}
-      <section id="testimonials" className="relative w-full py-32 px-[5%] bg-dark/95 text-cream border-t border-white/10">
+      <section id="testimonials" className="relative w-full py-32 px-[5%] bg-dark/95 text-cream">
         <div className="max-w-6xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-20">
             <span className="font-mono text-xs uppercase tracking-widest text-peach mb-4 block">Social Proof</span>
@@ -1649,7 +1648,7 @@ function App() {
       {/* ==========================================================================
          F. HORIZONTAL COMMENTS TRACK (MARQUEE)
          ========================================================================== */}
-      <section className="relative w-full py-16 bg-dark border-t border-b border-white/10 overflow-hidden">
+      <section className="relative w-full py-16 bg-dark overflow-hidden">
         <div className="engagement-marquee-container">
           <div className="marquee-track flex gap-8 whitespace-nowrap">
             <div className="flex gap-8 items-center">
@@ -1743,7 +1742,7 @@ function App() {
         </div>
 
         {/* Footer info mapping links */}
-        <div className="w-full max-w-5xl mt-32 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8 font-mono text-xs uppercase">
+        <div className="w-full max-w-5xl mt-32 pt-8 flex flex-col md:flex-row justify-between items-center gap-8 font-mono text-xs uppercase">
           <div className="flex gap-12 text-left">
             <div className="flex flex-col">
               <span className="text-white/30 mb-3 tracking-wider">Capabilities:</span>
