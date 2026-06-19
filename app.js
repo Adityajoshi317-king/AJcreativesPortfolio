@@ -636,20 +636,7 @@ function App() {
               sphereObj.position.x = -250;
               sphereObj.position.y = 120;
               
-              // Clone the sphere to create a second bubble floating in the bottom-right quadrant to scatter them
-              const scene = splineApp2._scene || splineApp2.scene;
-              if (scene) {
-                const sphereClone = sphereObj.clone();
-                sphereClone.name = "SphereClone";
-                sphereClone.scale.x = 3.60;
-                sphereClone.scale.y = 3.60;
-                sphereClone.scale.z = 4.20;
-                sphereClone.position.x = 320;
-                sphereClone.position.y = -180;
-                sphereClone.position.z = -50;
-                scene.add(sphereClone);
-                console.log("Cloned second background sphere successfully.");
-              }
+              // Main background sphere is enlarged and repositioned to the top-left area
             }
           } catch (e) {
             console.error(e);
