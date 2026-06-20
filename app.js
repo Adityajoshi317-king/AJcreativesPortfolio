@@ -1258,6 +1258,13 @@ function App() {
               }}
             >
               <YoutubeCard
+                title="Terrifying Sea Creatures That Actually Existed"
+                videoId="yrhjHABFO4E"
+                setCursorText={setCursorText}
+                setCursorHovered={setCursorHovered}
+                onClick={() => setActiveVideoId("yrhjHABFO4E")}
+              />
+              <YoutubeCard
                 title="Stupid YouTubers Who'd Do Anything for Views"
                 videoId="7eks3taAtZY"
                 setCursorText={setCursorText}
@@ -1337,6 +1344,15 @@ function App() {
         {/* Swipe-friendly horizontal scroll track for mobile */}
         <div className="w-full overflow-x-auto pb-8 flex justify-start scrollbar-none snap-x snap-mandatory">
           <div className="flex flex-row gap-6 px-6 w-max">
+            <div className="snap-center">
+              <YoutubeCard
+                title="Terrifying Sea Creatures That Actually Existed"
+                videoId="yrhjHABFO4E"
+                setCursorText={setCursorText}
+                setCursorHovered={setCursorHovered}
+                onClick={() => setActiveVideoId("yrhjHABFO4E")}
+              />
+            </div>
             <div className="snap-center">
               <YoutubeCard
                 title="Stupid YouTubers Who'd Do Anything for Views"
