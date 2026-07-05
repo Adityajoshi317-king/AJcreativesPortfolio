@@ -917,7 +917,7 @@ function App() {
               onMouseLeave={() => setCursorHovered(false)}
               className="hover:text-electric transition-colors"
             >
-              Spec Work
+              Ads
             </a>
           </Magnetic>
           <Magnetic>
