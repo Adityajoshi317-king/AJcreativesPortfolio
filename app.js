@@ -229,7 +229,7 @@ function MotionCard({ title, videoSrc, setCursorText, setCursorHovered }) {
 }
 
 // YouTube Video Card component with dynamic thumbnail error fallback
-function YoutubeCard({ title, videoId, setCursorText, setCursorHovered, onClick }) {
+function YoutubeCard({ title, videoId, label = "YouTube Work", setCursorText, setCursorHovered, onClick }) {
   const [imgSrc, setImgSrc] = useState(`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`);
 
   const handleImageError = () => {
@@ -265,7 +265,7 @@ function YoutubeCard({ title, videoId, setCursorText, setCursorHovered, onClick 
       
       {/* Detail Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 text-left">
-        <span className="font-mono text-[9px] uppercase tracking-wider text-peach mb-1">YouTube Work</span>
+        <span className="font-mono text-[9px] uppercase tracking-wider text-peach mb-1">{label}</span>
         <h4 className="font-heading text-lg text-cream leading-tight">{title}</h4>
       </div>
     </div>
@@ -475,6 +475,11 @@ function App() {
   const motionSectionRef = useRef(null);
   const motionMobileRef = useRef(null);
   const horizontalTrackRef = useRef(null);
+
+  // DTC / Ecommerce Spec Work section refs
+  const specSectionRef = useRef(null);
+  const specMobileRef = useRef(null);
+  const specTrackRef = useRef(null);
 
   // Global mouse position tracking for spring cursor follow
   useEffect(() => {
@@ -727,6 +732,30 @@ function App() {
   const xTransformMotion = useTransform(scrollYMotion, [0, 1], [0, xTranslationMotion]);
   const x = useSpring(xTransformMotion, { stiffness: 60, damping: 15, mass: 0.2 });
 
+  // 4. DTC / Ecommerce Spec Work Sticky Scroll
+  const { scrollYProgress: scrollYSpec } = useScroll({
+    target: specSectionRef,
+    offset: ["start start", "end end"]
+  });
+  const [xTranslationSpec, setXTranslationSpec] = useState(0);
+  useEffect(() => {
+    const calculateScroll = () => {
+      if (specTrackRef.current) {
+        const trackWidth = specTrackRef.current.scrollWidth;
+        const viewportWidth = window.innerWidth;
+        setXTranslationSpec(-(trackWidth - viewportWidth));
+      }
+    };
+    const timer = setTimeout(calculateScroll, 600);
+    window.addEventListener('resize', calculateScroll);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', calculateScroll);
+    };
+  }, []);
+  const xTransformSpec = useTransform(scrollYSpec, [0, 1], [0, xTranslationSpec]);
+  const xSpec = useSpring(xTransformSpec, { stiffness: 60, damping: 15, mass: 0.2 });
+
   // Trigger Lenis smooth scroll
   useEffect(() => {
     if (isLoading) return; // Wait until loading finishes to enable Lenis
@@ -879,6 +908,16 @@ function App() {
               className="hover:text-electric transition-colors"
             >
               Motion
+            </a>
+          </Magnetic>
+          <Magnetic>
+            <a 
+              href="#spec-work" 
+              onMouseEnter={() => { setCursorText("Go ➔"); setCursorHovered(true); }}
+              onMouseLeave={() => setCursorHovered(false)}
+              className="hover:text-electric transition-colors"
+            >
+              Spec Work
             </a>
           </Magnetic>
           <Magnetic>
@@ -1559,6 +1598,160 @@ function App() {
                 videoSrc="spotify concept video.mp4"
                 setCursorText={setCursorText}
                 setCursorHovered={setCursorHovered}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================================================
+         D3. DTC / ECOMMERCE SPEC WORK (DARK THEME STICKY SCROLL)
+         ========================================================================== */}
+      {/* Desktop Sticky Scroll Section (md and up) */}
+      <div
+        ref={specSectionRef}
+        id="spec-work"
+        className="relative hidden md:block w-full h-[200vh] transition-colors duration-1000 bg-dark text-cream"
+      >
+        <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden z-10 bg-dark text-cream">
+          
+          {/* Section Heading */}
+          <div className="max-w-7xl mx-auto text-center mb-10 px-[5%]">
+            <span className="font-mono text-xs uppercase tracking-widest text-electric mb-3 block">Spec Work Track</span>
+            <h1 className="font-heading text-4xl md:text-6xl uppercase tracking-tighter text-current">
+              DTC / Ecommerce Spec Work
+            </h1>
+            <p className="mt-2 font-body text-base md:text-lg text-white/60 max-w-2xl mx-auto">
+              These are self-initiated spec projects created to demonstrate editing and creative strategy capabilities.
+            </p>
+          </div>
+
+          {/* Horizontal Track container */}
+          <div className="w-full relative">
+            <motion.div 
+              ref={specTrackRef}
+              style={{ x: xSpec }}
+              className="flex flex-row gap-8 px-24 w-max cursor-none"
+              onMouseEnter={() => {
+                setCursorText("Scroll ↔");
+                setCursorHovered(true);
+              }}
+              onMouseLeave={() => {
+                setCursorHovered(false);
+              }}
+            >
+              <YoutubeCard
+                title="DTC Spec Ad - Concept I"
+                videoId="RLeHqvB_g3Y"
+                label="Spec Ad"
+                setCursorText={setCursorText}
+                setCursorHovered={setCursorHovered}
+                onClick={() => setActiveVideoId("RLeHqvB_g3Y")}
+              />
+              <YoutubeCard
+                title="DTC Spec Ad - Concept II"
+                videoId="KavAKrdV-Ps"
+                label="Spec Ad"
+                setCursorText={setCursorText}
+                setCursorHovered={setCursorHovered}
+                onClick={() => setActiveVideoId("KavAKrdV-Ps")}
+              />
+              <YoutubeCard
+                title="DTC Spec Ad - Concept III"
+                videoId="1aigz8k8OlM"
+                label="Spec Ad"
+                setCursorText={setCursorText}
+                setCursorHovered={setCursorHovered}
+                onClick={() => setActiveVideoId("1aigz8k8OlM")}
+              />
+              <YoutubeCard
+                title="DTC Spec Ad - Concept IV"
+                videoId="9TCOgL7ITDo"
+                label="Spec Ad"
+                setCursorText={setCursorText}
+                setCursorHovered={setCursorHovered}
+                onClick={() => setActiveVideoId("9TCOgL7ITDo")}
+              />
+              <YoutubeCard
+                title="DTC Spec Ad - Concept V"
+                videoId="1pIPsFSNZ7U"
+                label="Spec Ad"
+                setCursorText={setCursorText}
+                setCursorHovered={setCursorHovered}
+                onClick={() => setActiveVideoId("1pIPsFSNZ7U")}
+              />
+            </motion.div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Swipe Section (sm and down) */}
+      <section
+        ref={specMobileRef}
+        id="spec-work-mobile"
+        className="relative md:hidden w-full py-24 px-0 overflow-hidden bg-dark text-cream"
+      >
+        <div className="max-w-7xl mx-auto text-center mb-10 px-[5%]">
+          <span className="font-mono text-xs uppercase tracking-widest text-electric mb-3 block">Spec Work Track</span>
+          <h1 className="font-heading text-3xl uppercase tracking-tighter text-current">
+            DTC / Ecommerce Spec Work
+          </h1>
+          <p className="mt-2 font-body text-sm text-white/60 max-w-xl mx-auto px-4">
+            These are self-initiated spec projects created to demonstrate editing and creative strategy capabilities.
+          </p>
+        </div>
+
+        {/* Swipe-friendly horizontal scroll track for mobile */}
+        <div className="w-full overflow-x-auto pb-8 flex justify-start scrollbar-none snap-x snap-mandatory">
+          <div className="flex flex-row gap-6 px-6 w-max">
+            <div className="snap-center">
+              <YoutubeCard
+                title="DTC Spec Ad - Concept I"
+                videoId="RLeHqvB_g3Y"
+                label="Spec Ad"
+                setCursorText={setCursorText}
+                setCursorHovered={setCursorHovered}
+                onClick={() => setActiveVideoId("RLeHqvB_g3Y")}
+              />
+            </div>
+            <div className="snap-center">
+              <YoutubeCard
+                title="DTC Spec Ad - Concept II"
+                videoId="KavAKrdV-Ps"
+                label="Spec Ad"
+                setCursorText={setCursorText}
+                setCursorHovered={setCursorHovered}
+                onClick={() => setActiveVideoId("KavAKrdV-Ps")}
+              />
+            </div>
+            <div className="snap-center">
+              <YoutubeCard
+                title="DTC Spec Ad - Concept III"
+                videoId="1aigz8k8OlM"
+                label="Spec Ad"
+                setCursorText={setCursorText}
+                setCursorHovered={setCursorHovered}
+                onClick={() => setActiveVideoId("1aigz8k8OlM")}
+              />
+            </div>
+            <div className="snap-center">
+              <YoutubeCard
+                title="DTC Spec Ad - Concept IV"
+                videoId="9TCOgL7ITDo"
+                label="Spec Ad"
+                setCursorText={setCursorText}
+                setCursorHovered={setCursorHovered}
+                onClick={() => setActiveVideoId("9TCOgL7ITDo")}
+              />
+            </div>
+            <div className="snap-center">
+              <YoutubeCard
+                title="DTC Spec Ad - Concept V"
+                videoId="1pIPsFSNZ7U"
+                label="Spec Ad"
+                setCursorText={setCursorText}
+                setCursorHovered={setCursorHovered}
+                onClick={() => setActiveVideoId("1pIPsFSNZ7U")}
               />
             </div>
           </div>
